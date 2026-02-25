@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok OAuth — Redirect</title>
+</head>
+<body>
+  <p>Redirecting to Shortix...</p>
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get('code');
+      var state = params.get('state');
+      var error = params.get('error');
+      if (error) {
+        document.body.innerHTML = '<p>Error: ' + error + '</p><p>Return to Shortix and try again.</p>';
+        return;
+      }
+      if (code && state) {
+        var target = 'http://127.0.0.1:8765/?csrf=' + encodeURIComponent(state) + '&code=' + encodeURIComponent(code);
+        window.location.href = target;
+      } else {
+        document.body.innerHTML = '<p>No authorization code received. Return to Shortix and click "Authorize TikTok" again.</p>';
+      }
+    })();
+  </script>
+</body>
+</html>
